@@ -14,7 +14,12 @@ const ProductSlice = createSlice({
       state.filtereddata = payload; // Initialize filtereddata with product data
     },
     filterdata: (state, { payload }) => {
-      // Sorting logic
+      if (payload.category != "all") {
+        state.filtereddata ==
+          state.filtereddata.filter(
+            ({ category }) => category == payload.category
+          );
+      }
       switch (payload.sort) {
         case "rating":
           state.filtereddata = [...state.product].sort(
