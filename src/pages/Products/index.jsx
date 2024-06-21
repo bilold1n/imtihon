@@ -21,7 +21,6 @@ export default function Products() {
     categorySelect: "all",
     search: "",
     sort: "",
-    categoryCompany: "",
     price: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,6 +61,7 @@ export default function Products() {
 
   const handlesearch = (e) => {
     e.preventDefault();
+    dispatch(filterdata(filters));
     console.log(filters);
   };
 
@@ -130,12 +130,7 @@ export default function Products() {
             </div>
             <div>
               <p>Select Company</p>
-              <select
-                onChange={(e) =>
-                  setFilters({ ...filters, categoryCompany: e.target.value })
-                }
-                className="select select-bordered w-[256px]"
-              >
+              <select className="select select-bordered w-[256px]">
                 <option value="all">all</option>
               </select>
             </div>
@@ -149,7 +144,7 @@ export default function Products() {
               >
                 <option value="rating">Rating ⭐</option>
                 <option value="price">Price 💲</option>
-                <option value="aname">A-z</option>
+                <option value="name">A-z</option>
                 <option value="!name">Z-a</option>
               </select>
             </div>

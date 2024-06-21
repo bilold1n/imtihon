@@ -14,7 +14,7 @@ const ProductSlice = createSlice({
       state.filtereddata = payload;
     },
     filterdata: (state, { payload }) => {
-      switch (payload) {
+      switch (payload.sort) {
         case "rating":
           state.filtereddata = [...state.filtereddata].sort(
             (a, b) => b.rating - a.rating
@@ -27,26 +27,31 @@ const ProductSlice = createSlice({
           break;
         case "name":
           state.filtereddata = [...state.filtereddata].sort((a, b) =>
-            a.name.localeCompare(b.name)
+            a.title.localeCompare(b.title)
           );
           break;
         case "!name":
           state.filtereddata = [...state.filtereddata].sort((a, b) =>
-            b.name.localeCompare(a.name)
+            b.title.localeCompare(a.title)
           );
           break;
         default:
           state.filtereddata = state.filtereddata;
           break;
       }
-    },
-    searchData: (state, { payload }) => {
       state.filtereddata = [
-        ...state.product.filter(({ name }) =>
-          name.toLowerCase().includes(payload.toLowerCase())
+        ...state.product.filter(({ title }) =>
+          title.toLowerCase().includes(payload.search.toLowerCase())
         ),
       ];
     },
+    // searchData: (state, { payload }) => {
+    //   state.filtereddata = [
+    //     ...state.product.filter(({ name }) =>
+    //       name.toLowerCase().includes(payload.toLowerCase())
+    //     ),
+    //   ];
+    // },
   },
 });
 
