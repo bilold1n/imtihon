@@ -7,7 +7,7 @@ import {
   increment,
 } from "../../apps/cartslice";
 import { useDispatch, useSelector } from "react-redux";
-import { filterdata, getproduct, searchData } from "../../apps/product";
+import { filterdata, getproduct } from "../../apps/product";
 
 export default function Products() {
   const dispatch = useDispatch();
