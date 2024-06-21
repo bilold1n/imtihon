@@ -13,7 +13,7 @@ export default function Products() {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const state = useSelector((state) => state.product);
-  console.log(state);
+  console.log(state.filtereddata);
   const queryClient = useQueryClient();
   console.log(state);
   const [select, setSelect] = useState("all");
@@ -219,76 +219,78 @@ export default function Products() {
             ></span>
           </div>
         )}
-        {data?.length ? (
+        {state.filtereddata?.length ? (
           <div className="grid gap-10 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-20 xl:gap-x-35">
-            {data &&
-              data.map(({ id, images, price, rating, title }, ind) => (
-                <div key={ind} className="card w-[350px] containerr">
-                  <figure>
-                    <img
-                      width={300}
-                      height={250}
-                      className="w-[300px] h-[250px] object-scale-down object-center"
-                      src={images[0]}
-                      alt="Shoes"
-                    />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title text-center">{title}</h2>
+            {state.filtereddata &&
+              state.filtereddata.map(
+                ({ id, images, price, rating, title }, ind) => (
+                  <div key={ind} className="card w-[350px] containerr">
+                    <figure>
+                      <img
+                        width={300}
+                        height={250}
+                        className="w-[300px] h-[250px] object-scale-down object-center"
+                        src={images[0]}
+                        alt="Shoes"
+                      />
+                    </figure>
+                    <div className="card-body">
+                      <h2 className="card-title text-center">{title}</h2>
 
-                    <div className="text-center">Price - {price}💲</div>
-                  </div>
-                  {cart.findIndex((item) => item.id === id) !== -1 ? (
-                    <div className="flex items-center justify-center gap-5">
-                      <button
-                        onClick={() => {
-                          if (
+                      <div className="text-center">Price - {price}💲</div>
+                    </div>
+                    {cart.findIndex((item) => item.id === id) !== -1 ? (
+                      <div className="flex items-center justify-center gap-5">
+                        <button
+                          onClick={() => {
+                            if (
+                              cart[cart.findIndex((item) => item.id === id)]
+                                .count === 1
+                            ) {
+                              return dispatch(deleteitem(id));
+                            }
+
+                            dispatch(decrement(id));
+                          }}
+                          className="btn btn-primary"
+                          disabled={
                             cart[cart.findIndex((item) => item.id === id)]
                               .count === 1
-                          ) {
-                            return dispatch(deleteitem(id));
                           }
-
-                          dispatch(decrement(id));
+                        >
+                          -
+                        </button>
+                        <p>
+                          {cart[cart.findIndex((item) => item.id === id)].count}
+                        </p>
+                        <button
+                          onClick={() => dispatch(increment(id))}
+                          className="btn btn-primary"
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          dispatch(
+                            addtocart({
+                              id,
+                              title,
+                              images,
+                              price,
+                            })
+                          );
                         }}
                         className="btn btn-primary"
-                        disabled={
-                          cart[cart.findIndex((item) => item.id === id)]
-                            .count === 1
-                        }
+                        style={{ width: "50%", marginInline: "auto" }}
                       >
-                        -
+                        Add to Cart
                       </button>
-                      <p>
-                        {cart[cart.findIndex((item) => item.id === id)].count}
-                      </p>
-                      <button
-                        onClick={() => dispatch(increment(id))}
-                        className="btn btn-primary"
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        dispatch(
-                          addtocart({
-                            id,
-                            title,
-                            images,
-                            price,
-                          })
-                        );
-                      }}
-                      className="btn btn-primary"
-                      style={{ width: "50%", marginInline: "auto" }}
-                    >
-                      Add to Cart
-                    </button>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                )
+              )}
           </div>
         ) : (
           <h1 className="text-center text-3xl">
