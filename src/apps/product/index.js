@@ -42,6 +42,9 @@ const ProductSlice = createSlice({
       }
 
       // Filtering logic
+      state.filtereddata = state.filtereddata.filter(
+        ({ price }) => price < payload.price
+      );
       state.filtereddata = state.filtereddata.filter(({ title }) =>
         title.toLowerCase().includes(payload.search.toLowerCase())
       );
