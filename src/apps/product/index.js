@@ -14,45 +14,40 @@ const ProductSlice = createSlice({
       state.filtereddata = payload; // Initialize filtereddata with product data
     },
     filterdata: (state, { payload }) => {
-      if (payload.category != "all") {
-        state.filtereddata ==
-          state.filtereddata.filter(
-            ({ category }) => category == payload.category
-          );
-      }
+      let filteredProducts = [...state.product];
+
+      // Sorting logic
       switch (payload.sort) {
         case "rating":
-          state.filtereddata = [...state.product].sort(
-            (a, b) => b.rating - a.rating
-          );
+          filteredProducts.sort((a, b) => b.rating - a.rating);
           break;
         case "price":
-          state.filtereddata = [...state.product].sort(
-            (a, b) => b.price - a.price
-          );
+          filteredProducts.sort((a, b) => a.price - b.price);
           break;
         case "name":
-          state.filtereddata = [...state.product].sort((a, b) =>
-            a.title.localeCompare(b.title)
-          );
+          filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
           break;
         case "!name":
-          state.filtereddata = [...state.product].sort((a, b) =>
-            b.title.localeCompare(a.title)
-          );
+          filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
           break;
         default:
-          state.filtereddata = [...state.product];
           break;
       }
 
       // Filtering logic
-      state.filtereddata = state.filtereddata.filter(
-        ({ price }) => price < payload.price
-      );
-      state.filtereddata = state.filtereddata.filter(({ title }) =>
-        title.toLowerCase().includes(payload.search.toLowerCase())
-      );
+      if (payload.price) {
+        filteredProducts = filteredProducts.filter(
+          ({ price }) => price < payload.price
+        );
+      }
+
+      if (payload.search) {
+        filteredProducts = filteredProducts.filter(({ title }) =>
+          title.toLowerCase().includes(payload.search.toLowerCase())
+        );
+      }
+
+      state.filtereddata = filteredProducts;
     },
   },
 });
