@@ -78,7 +78,7 @@ export default function Products() {
       <button
         key={page}
         onClick={() => handlePageChange(page)}
-        className={`btn mx-1 ${currentPage === page ? "bg-gray-400" : ""}`}
+        className={`btn mx-1 ${currentPage === page ? "bg-secondary" : ""}`}
       >
         {page}
       </button>
