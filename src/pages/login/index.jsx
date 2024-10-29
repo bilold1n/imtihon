@@ -102,7 +102,7 @@ export default function Login() {
                 </label>
               </div>
               <div className="form-control mt-6 gap-4">
-                <button className="btn btn-primary">Sign in</button>
+                <button className="btn  btn-primary text-white">Sign in</button>
                 <button className="btn text-white bg-[#463AA1]">
                   Guest user
                 </button>
